@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
 
-function App() {
+const studentStaticData = [
+  {
+    id: 1,
+    studentName: "Student-1",
+    university: "ABC University",
+  },
+  {
+    id: 2,
+    studentName: "Student-2",
+    university: "DEF University",
+  },
+];
+
+const App = () => {
+  const [studentList, setStudentList] = useState(studentStaticData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1>React-Student App-Practice2</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>University Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {studentList.map((student) => (
+            <tr>
+              <td>{student.studentName}</td>
+              <td>{student.university}</td> 
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
 export default App;
