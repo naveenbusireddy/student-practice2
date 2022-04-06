@@ -1,4 +1,12 @@
-const EditableRow = () => {
+import React from "react";
+
+const EditableRow = ({
+  editStudentName,
+  editUniversity,
+  handleEditStudentName,
+  handleEditUniversity,
+  cancelClickHandler,
+}) => {
   return (
     <tr>
       <td>
@@ -7,6 +15,8 @@ const EditableRow = () => {
           name="studentName"
           required="required"
           placeholder="Enter Student Name"
+          value={editStudentName}
+          onChange={handleEditStudentName}
         />
       </td>
       <td>
@@ -15,7 +25,15 @@ const EditableRow = () => {
           name="university"
           required="required"
           placeholder="Enter University Name"
+          value={editUniversity}
+          onChange={handleEditUniversity}
         />
+      </td>
+      <td>
+        <button type="submit">Save</button>
+        <button type="button" onClick={cancelClickHandler}>
+          Cancel
+        </button>
       </td>
     </tr>
   );

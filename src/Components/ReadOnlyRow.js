@@ -1,11 +1,18 @@
-const ReadOnlyRow = ({student, editClickHandler}) => {
+const ReadOnlyRow = ({ student, editClickHandler, deleteClickHandler }) => {
   return (
-    <tr key={student.id}>
+    <tr>
       <td>{student.studentName}</td>
       <td>{student.university}</td>
       <td>
-          <button type="button" onClick={(event) => editClickHandler(event,student)}>Edit</button>
-          <button>Delete</button>
+        <button
+          type="button"
+          onClick={(event) => editClickHandler(event, student)}
+        >
+          Edit
+        </button>
+        <button type="button">
+          Delete
+        </button>
       </td>
     </tr>
   );

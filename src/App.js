@@ -44,20 +44,53 @@ const App = () => {
 
     const newStudentFormData = [...studentList, studentFormData];
     setStudentList(newStudentFormData);
-    console.log(studentFormData);
+    // console.log(studentFormData);
   };
 
   const [editStudentId, setEditStudentId] = useState(null);
 
-  const editClickHandler = (event, student) => {
-    event.preventDefault();
+  const [editStudentName, setEditStudentName] = useState('');
+  const [editUniversity, setEditUniversity] = useState('');
 
+  const handleEditStudentName = (event) => {
+    setEditStudentName(event.target.value);
+  }
+  const handleEditUniversity = (event) => {
+    setEditUniversity(event.target.value);
+  }
+
+  const editClickHandler = (event,student) => {
+    event.preventDefault();
     setEditStudentId(student.id);
   };
 
+  const editFormSubmitHandler = (event) => {
+    event.preventDefault();
+
+    const editedStudentData = {
+      id: editStudentId, 
+      studentName: editStudentName,
+      university: editUniversity,
+    };
+
+    const newStudentFormData = [...studentList];
+    const index = studentList.findIndex((student) => student.id === editStudentId);
+    newStudentFormData[index] = editedStudentData;
+
+    setStudentList(newStudentFormData);
+    setEditStudentId(null);    
+  };
+
+  
+  const cancelClickHandler = () => {
+    setEditStudentId(null);
+  };
+
+  
   return (
     <div className="app-container">
       <h1>React-Student App-Practice2</h1>
+      <form onSubmit={editFormSubmitHandler}>
       <table>
         <thead>
           <tr>
@@ -70,17 +103,24 @@ const App = () => {
           {studentList.map((student) => (
             <Fragment>
               {editStudentId === student.id ? (
-                <EditableRow />
+                <EditableRow 
+                handleEditStudentName={handleEditStudentName}
+                handleEditUniversity={handleEditUniversity}
+                cancelClickHandler={cancelClickHandler}
+                />
               ) : (
                 <ReadOnlyRow
                   student={student}
                   editClickHandler={editClickHandler}
+                  
                 />
               )}
             </Fragment>
           ))}
         </tbody>
       </table>
+      </form>
+
       <h2>Add Student Details</h2>
       <form onSubmit={formSubmitHandler}>
         <input
