@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { nanoid } from "nanoid";
 import "./App.css";
+import ReadOnlyRow from "./Components/ReadOnlyRow";
+import EditableRow from "./Components/EditableRow";
 
 const studentStaticData = [
   {
@@ -28,7 +30,7 @@ const App = () => {
     setEnteredUniversity(event.target.value);
   };
 
-  const formSubmitHandler = (event) => {    
+  const formSubmitHandler = (event) => {
     event.preventDefault();
 
     const studentFormData = {
@@ -42,7 +44,15 @@ const App = () => {
 
     const newStudentFormData = [...studentList, studentFormData];
     setStudentList(newStudentFormData);
-    console.log(studentFormData); 
+    console.log(studentFormData);
+  };
+
+  const [editStudentId, setEditStudentId] = useState(null);
+
+  const editClickHandler = (event, student) => {
+    event.preventDefault();
+
+    setEditStudentId(student.id);
   };
 
   return (
@@ -58,10 +68,16 @@ const App = () => {
         </thead>
         <tbody>
           {studentList.map((student) => (
-            <tr key={student.id}>
-              <td>{student.studentName}</td>
-              <td>{student.university}</td>
-            </tr>
+            <Fragment>
+              {editStudentId === student.id ? (
+                <EditableRow />
+              ) : (
+                <ReadOnlyRow
+                  student={student}
+                  editClickHandler={editClickHandler}
+                />
+              )}
+            </Fragment>
           ))}
         </tbody>
       </table>
