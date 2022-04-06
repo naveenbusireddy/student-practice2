@@ -49,76 +49,86 @@ const App = () => {
 
   const [editStudentId, setEditStudentId] = useState(null);
 
-  const [editStudentName, setEditStudentName] = useState('');
-  const [editUniversity, setEditUniversity] = useState('');
+  const [editStudentName, setEditStudentName] = useState("");
+  const [editUniversity, setEditUniversity] = useState("");
 
   const handleEditStudentName = (event) => {
     setEditStudentName(event.target.value);
-  }
+  };
   const handleEditUniversity = (event) => {
     setEditUniversity(event.target.value);
-  }
-
-  const editClickHandler = (event,student) => {
-    event.preventDefault();
-    setEditStudentId(student.id);
   };
 
   const editFormSubmitHandler = (event) => {
     event.preventDefault();
 
     const editedStudentData = {
-      id: editStudentId, 
+      id: editStudentId,
       studentName: editStudentName,
       university: editUniversity,
     };
 
     const newStudentFormData = [...studentList];
-    const index = studentList.findIndex((student) => student.id === editStudentId);
+    const index = studentList.findIndex(
+      (student) => student.id === editStudentId
+    );
     newStudentFormData[index] = editedStudentData;
 
     setStudentList(newStudentFormData);
-    setEditStudentId(null);    
+    setEditStudentId(null);
   };
 
-  
+  const editClickHandler = (event, student) => {
+    event.preventDefault();
+    setEditStudentId(student.id);
+  };
+
   const cancelClickHandler = () => {
     setEditStudentId(null);
   };
 
-  
+  const deleteClickHandler = (studentId) => {
+    const newStudentFormData = [...studentList];
+
+    const index = studentList.findIndex((student) => student.id === studentId);
+
+    newStudentFormData.splice(index, 1);
+
+    setStudentList(newStudentFormData);
+  };
+
   return (
     <div className="app-container">
       <h1>React-Student App-Practice2</h1>
       <form onSubmit={editFormSubmitHandler}>
-      <table>
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>University Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {studentList.map((student) => (
-            <Fragment>
-              {editStudentId === student.id ? (
-                <EditableRow 
-                handleEditStudentName={handleEditStudentName}
-                handleEditUniversity={handleEditUniversity}
-                cancelClickHandler={cancelClickHandler}
-                />
-              ) : (
-                <ReadOnlyRow
-                  student={student}
-                  editClickHandler={editClickHandler}
-                  
-                />
-              )}
-            </Fragment>
-          ))}
-        </tbody>
-      </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>University Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {studentList.map((student) => (
+              <Fragment>
+                {editStudentId === student.id ? (
+                  <EditableRow
+                    handleEditStudentName={handleEditStudentName}
+                    handleEditUniversity={handleEditUniversity}
+                    cancelClickHandler={cancelClickHandler}
+                  />
+                ) : (
+                  <ReadOnlyRow
+                    student={student}
+                    editClickHandler={editClickHandler}
+                    deleteClickHandler={deleteClickHandler}
+                  />
+                )}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
       </form>
 
       <h2>Add Student Details</h2>

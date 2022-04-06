@@ -10,7 +10,7 @@ const ReadOnlyRow = ({ student, editClickHandler, deleteClickHandler }) => {
         >
           Edit
         </button>
-        <button type="button">
+        <button type="button" onClick={() => deleteClickHandler(student.id)}>
           Delete
         </button>
       </td>
